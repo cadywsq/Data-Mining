@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 public class FileReader {
-    public static final String DATA_PATH = "trainProdIntro.real.arff";
+    public static final String DATA_PATH = "trainProdIntro.binary.arff";
 
     static ArrayList<Record> buildRecords() {
         try (BufferedReader br = new BufferedReader(new InputStreamReader(FileReader.class.getResourceAsStream
