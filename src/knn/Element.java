@@ -6,55 +6,55 @@ package knn;
  * @since Mar 28, 2016
  */
 public class Element {
-        private Type type;
-        private Style style;
-        private int Vacation;
-        private int credit;
-        private int salary;
-        private int property;
-        private Label label;
+    private Type type;
+    private Style style;
+    private int Vacation;
+    private int credit;
+    private int salary;
+    private int property;
+    private Label label;
 
-        public Element(String str) {
-            String[] params = str.split(",");
-            setType(params[0]);
-            setStyle(params[1]);
-            setVacation(Integer.parseInt(params[2]));
-            setCredit(Integer.parseInt(params[3]));
-            setSalary(Integer.parseInt(params[4]));
-            setProperty(Integer.parseInt(params[5]));
-            setLabel(params[6]);
-        }
+    public Element(String str) {
+        String[] params = str.split(",");
+        setType(params[0]);
+        setStyle(params[1]);
+        setVacation(Integer.parseInt(params[2]));
+        setCredit(Integer.parseInt(params[3]));
+        setSalary(Integer.parseInt(params[4]));
+        setProperty(Integer.parseInt(params[5]));
+        setLabel(params[6]);
+    }
 
-        public Type getType() {
-            return type;
-        }
+    public Type getType() {
+        return type;
+    }
 
-        public Style getStyle() {
-            return style;
-        }
+    public Style getStyle() {
+        return style;
+    }
 
-        public int getVacation() {
-            return Vacation;
-        }
+    public int getVacation() {
+        return Vacation;
+    }
 
-        public int getCredit() {
-            return credit;
-        }
+    public int getCredit() {
+        return credit;
+    }
 
-        public int getSalary() {
-            return salary;
-        }
+    public int getSalary() {
+        return salary;
+    }
 
-        public int getProperty() {
-            return property;
-        }
+    public int getProperty() {
+        return property;
+    }
 
-        public Label getLabel() {
-            return label;
-        }
+    public Label getLabel() {
+        return label;
+    }
 
-        public void setType(String key) {
-            switch (key) {
+    public void setType(String key) {
+        switch (key) {
             case "librarian":
                 type = Type.LIB;
                 break;
@@ -68,11 +68,11 @@ public class Element {
                 type = Type.ENG;
             default:
                 break;
-            }
         }
+    }
 
-        public void setStyle(String key) {
-            switch (key) {
+    public void setStyle(String key) {
+        switch (key) {
             case "spend<<saving":
                 style = Style.SAV2;
                 break;
@@ -86,27 +86,27 @@ public class Element {
                 style = Style.SPD2;
             default:
                 break;
-            }
         }
+    }
 
-        public void setVacation(int vacation) {
-            Vacation = vacation;
-        }
+    public void setVacation(int vacation) {
+        Vacation = vacation;
+    }
 
-        public void setCredit(int credit) {
-            this.credit = credit;
-        }
+    public void setCredit(int credit) {
+        this.credit = credit;
+    }
 
-        public void setSalary(int salary) {
-            this.salary = salary;
-        }
+    public void setSalary(int salary) {
+        this.salary = salary;
+    }
 
-        public void setProperty(int property) {
-            this.property = property;
-        }
+    public void setProperty(int property) {
+        this.property = property;
+    }
 
-        public void setLabel(String key) {
-            switch (key) {
+    public void setLabel(String key) {
+        switch (key) {
             case "C1":
                 label = Label.C1;
                 break;
@@ -124,8 +124,8 @@ public class Element {
                 break;
             default:
                 break;
-            }
         }
+    }
 
     enum Type {
         LIB, STU, ENG, PRO, DOC;
