@@ -86,4 +86,21 @@ public class Tree {
 	public void pruneTree() {
 		
 	}
+
+	static ArrayList<Record> buildRecords() {
+		try (BufferedReader br = new BufferedReader(new InputStreamReader(FileReader.class.getResourceAsStream
+				("trainProdIntro.binary.arff")))) {
+			ArrayList<Record> records = new ArrayList<>();
+			String input;
+			while (!(input = br.readLine()).equals("@data")) {
+				continue;
+			}
+			while ((input = br.readLine()) != null) {
+				String[] tokens = input.split(",");
+				Record record = new Record()
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }
