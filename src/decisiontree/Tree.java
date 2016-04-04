@@ -15,21 +15,21 @@ public class Tree {
             return new TreeNode(getLabel(parentInstances), true);
 
         // Returns null if no more attributes can be used
-        Attribute bestAttribute = SplitAttribute.getBestAttribute(instances, attributes);
-        if (bestAttribute == null)
+        SplitAttribute.SplitValue bestSplitValue = SplitAttribute.getBestAttribute(instances, attributes);
+        if (bestSplitValue == null)
             return new TreeNode(getLabel(instances), true);
 
-        TreeNode root = new TreeNode(bestAttribute.name, false);
+        TreeNode root = new TreeNode(bestSplitValue.getAttribute().name, false);
 
         // Partition instances based on best attribute
-        HashMap<String, ArrayList<Instance>> subsets = SplitAttribute.getSplitedInstances(instances, bestAttribute);
+        HashMap<String, ArrayList<Instance>> subsets = SplitAttribute.getSplitedInstances(instances, bestSplitValue);
 
         // Iterate through possible values of bestAttribute
         for(String key: subsets.keySet()) {
             // Copy attributes list and remove bestAttribute from copy
             ArrayList<Attribute> remainingAttributes = new ArrayList<Attribute>();
             remainingAttributes.addAll(attributes);
-            remainingAttributes.remove(bestAttribute);
+            remainingAttributes.remove(bestSplitValue);
             // Add child to subtree of root
             TreeNode child = buildDecisionTree(subsets.get(key), remainingAttributes, instances);
             child.commonValue = key;

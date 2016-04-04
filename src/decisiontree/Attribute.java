@@ -1,26 +1,38 @@
 package decisiontree;
 
-import java.util.List;
-
 /**
  * Created by wangxinlei on 4/3/16.
  */
-public class Attribute {
-    public final String name;
-    public final List<String> values;
-    public final boolean numeric;
-    public final boolean label;
+public class Attribute implements Comparable<Attribute> {
+    private String name;
+    private double infoGain;
 
-    public Attribute(List<String> values, String name) {
-        this.name = name;
-        this.values = values;
-        if (values.size() == 1 && values.get(0).equals("real"))
-            numeric = true;
-        else
-            numeric = false;
-        if (name.equals("Label"))
-            label = true;
-        else
-            label = false;
+    public Attribute(String name) {
+        this.setName(name);
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public double getInfoGain() {
+        return infoGain;
+    }
+
+    public void setInfoGain(double infoGain) {
+        this.infoGain = infoGain;
+    }
+
+    @Override
+    public int compareTo(Attribute o) {
+        if (o.getInfoGain() - this.getInfoGain() > 0) {
+            return 1;
+        } else if (o.getInfoGain() - this.getInfoGain() < 0) {
+            return -1;
+        }
+        return 0;    }
 }

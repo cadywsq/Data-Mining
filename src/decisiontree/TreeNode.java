@@ -9,6 +9,7 @@ public class TreeNode {
     boolean isLeaf;
     // @attribute: Service_type, Customer, Monthly_fee, Advertisement_budget
     // Size, Promotion, Interest_rate, Period
+    private SplitAttribute.SplitValue splitValue;
     String attributeName;
     // @attribute Label {0,1}
     String label;
@@ -52,5 +53,13 @@ public class TreeNode {
                 child.print(depth + 1);
             }
         }
+    }
+
+    public SplitAttribute.SplitValue getSplitValue() {
+        return splitValue;
+    }
+
+    public void setSplitValue(SplitAttribute.SplitValue splitValue) {
+        this.splitValue = splitValue;
     }
 }

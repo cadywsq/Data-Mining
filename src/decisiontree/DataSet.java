@@ -9,16 +9,9 @@ import java.util.Scanner;
 
 // Stores a set of instances
 public class DataSet {
-//    private static final String FILE_PATH = "trainProdIntro.binary.arff";
 
-    // Ordered list of instances
     public ArrayList<Attribute> attributes;
     public ArrayList<Instance> instances;
-
-//    public DataSet() {
-//        attributes = readData(FILE_PATH).attributes;
-//        instances = readData(FILE_PATH).instances;
-//    }
 
     // Add attribute to data set
     public void addAttribute(String line) {
@@ -28,8 +21,14 @@ public class DataSet {
         if (values.size() != 1) {
             values.get(0).replace("{", "");
             values.get(values.size() - 1).replace("}", "");
+
+            DiscreteAttribute attribute = new DiscreteAttribute(tokens[1]);
+            attribute.setValues(values);
+            attributes.add(attribute);
+
+        } else {
+            attributes.add(new ContinuousAttribute(tokens[1]));
         }
-        attributes.add(new Attribute(values, tokens[1]));
     }
 
     // Add instance to data set (add all attributes before doing this)
@@ -42,6 +41,7 @@ public class DataSet {
         instances.add(new Instance(attributes, values[values.length - 1]));
     }
 
+    // Initially read in file.
     static DataSet readData(String filename) {
         DataSet data = new DataSet();
         Scanner scanner = null;
