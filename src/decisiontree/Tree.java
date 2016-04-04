@@ -29,15 +29,13 @@ public class Tree {
             // Copy attributes list and remove bestAttribute from copy
             ArrayList<Attribute> remainingAttributes = new ArrayList<Attribute>();
             remainingAttributes.addAll(attributes);
-            if (!bestAttribute.numeric)
-                remainingAttributes.remove(bestAttribute);
+            remainingAttributes.remove(bestAttribute);
             // Add child to subtree of root
             TreeNode child = buildDecisionTree(subsets.get(key), remainingAttributes, instances);
-            if (bestAttribute.numeric) {
-                child.splitNum = Double.parseDouble(key);
-            } else
-                child.splitValue = key;
+            child.commonValue = key;
+            child.remainingAttribute = remainingAttributes;
             root.addChild(child);
+
         }
 
         return root;
