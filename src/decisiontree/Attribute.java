@@ -18,7 +18,7 @@ public class Attribute {
             numeric = true;
         else
             numeric = false;
-        if (name.equals("class"))
+        if (name.equals("Label"))
             label = true;
         else
             label = false;
