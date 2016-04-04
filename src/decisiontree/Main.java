@@ -12,7 +12,7 @@ public class Main {
         // train or build tree
     }
 
-    private static DataSet read(String filename) {
+    private static DataSet readData(String filename) {
         DataSet data = new DataSet();
         Scanner scanner = null;
         try {
