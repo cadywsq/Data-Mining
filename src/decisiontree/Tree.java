@@ -15,14 +15,14 @@ public class Tree {
             return new TreeNode(getLabel(parentInstances), true);
 
         // Returns null if no more features / positive gain features
-        Attribute bestAttribute = InfoRatio.getBestAttribute(instances, attributes);
+        Attribute bestAttribute = SplitAttribute.getBestAttribute(instances, attributes);
         if (bestAttribute == null)
             return new TreeNode(getLabel(instances), true);
 
         TreeNode root = new TreeNode(bestAttribute.name, false);
 
         // Partition instances based on best attribute
-        HashMap<String, ArrayList<Instance>> subsets = InfoRatio.getSplitedInstances(instances, bestAttribute);
+        HashMap<String, ArrayList<Instance>> subsets = SplitAttribute.getSplitedInstances(instances, bestAttribute);
 
         // Iterate through possible values of bestAttribute
         for(String key: subsets.keySet()) {

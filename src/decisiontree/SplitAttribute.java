@@ -12,7 +12,7 @@ import static decisiontree.DataSet.readData;
 /**
  * @author Siqi Wang siqiw1 on 4/3/16.
  */
-public class InfoRatio {
+public class SplitAttribute {
     static final String FILE_PATH = "trainProdIntro.binary.arff";
     private static DataSet dataSet = readData(FILE_PATH);
     private static ArrayList<Attribute> attributeList = dataSet.attributes;
