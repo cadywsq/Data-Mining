@@ -1,7 +1,6 @@
 package decisiontree;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by wangxinlei on 4/3/16.
@@ -10,7 +9,7 @@ public class TreeNode {
     boolean isLeaf;
     // @attribute: Service_type, Customer, Monthly_fee, Advertisement_budget
     // Size, Promotion, Interest_rate, Period
-    Attribute splitByAttribute;
+    String attributeName;
     // @attribute Label {0,1}
     String label;
 
@@ -47,13 +46,8 @@ public class TreeNode {
                 for (int i = 0; i < depth; i++)
                     System.out.print("|\t");
                 System.out.print(attributeName);
-                if (splitValue != null) {
-                    System.out.print(splitValue);
-                    child.print(depth + 1);
-                } else {
-                    System.out.print(child.splitNum);
-                    child.print(depth + 1);
-                }
+                System.out.print(commonValue);
+                child.print(depth + 1);
 
             }
 
