@@ -35,11 +35,11 @@ public class DataSet {
     // Add instance to data set (add all attributes before doing this)
     public void addInstance(String line) {
         String[] values = line.split(",");
-        HashMap<String, String> attributeValues = new HashMap<>();
+        HashMap<Attribute, String> attributes = new HashMap<>();
         for (int i = 0; i < values.length - 1; i++) {
-            attributeValues.put(attributes.get(i).name, values[i]);
+            attributes.put(this.attributes.get(i), values[i]);
         }
-        instances.add(new Instance(attributeValues, values[values.length - 1]));
+        instances.add(new Instance(attributes, values[values.length - 1]));
     }
 
     static DataSet readData(String filename) {
