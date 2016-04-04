@@ -3,7 +3,7 @@ package decisiontree;
 /**
  * @author Siqi Wang siqiw1 on 4/4/16.
  */
-public class ContinuousAttribute extends DiscreteAttribute{
+public class ContinuousAttribute extends Attribute{
     private double splitValue;
 
     public ContinuousAttribute(String name) {

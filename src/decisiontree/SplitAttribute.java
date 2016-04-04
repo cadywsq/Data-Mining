@@ -105,8 +105,11 @@ public class SplitAttribute {
                 }
             }
             for (int i = 0; i < instances.size(); i++) {
-                ContinuousAttribute a = (ContinuousAttribute) getDiscreteInfoGain(instances, attribute);
+                DiscreteAttribute aTemp = getDiscreteInfoGain(instances, attribute);
+                ContinuousAttribute a = new ContinuousAttribute(attribute.getName());
+                a.setInfoGain(aTemp.getInfoGain());
                 a.setSplitValue(value);
+
                 attributeList.add(a);
             }
         }

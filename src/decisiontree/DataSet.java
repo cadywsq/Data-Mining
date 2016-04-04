@@ -17,17 +17,20 @@ public class DataSet {
     public void addAttribute(String line) {
         // Break line into attribute name and attributeMap
         String[] tokens = line.split(" ");
-        ArrayList<String> values = new ArrayList<>(Arrays.asList(tokens[2].split(",")));
-        if (values.size() != 1) {
-            values.get(0).replace("{", "");
-            values.get(values.size() - 1).replace("}", "");
 
-            DiscreteAttribute attribute = new DiscreteAttribute(tokens[1]);
-            attribute.setValues(values);
-            attributes.add(attribute);
+        if (!tokens[1].equals("Label")) {
+            ArrayList<String> values = new ArrayList<>(Arrays.asList(tokens[2].split(",")));
+            if (values.size() != 1) {
+                values.set(0, values.get(0).replace("{", ""));
+                values.set(0, values.get(values.size() - 1).replace("}", ""));
 
-        } else {
-            attributes.add(new ContinuousAttribute(tokens[1]));
+                DiscreteAttribute attribute = new DiscreteAttribute(tokens[1]);
+                attribute.setValues(values);
+                attributes.add(attribute);
+
+            } else {
+                attributes.add(new ContinuousAttribute(tokens[1]));
+            }
         }
     }
 
