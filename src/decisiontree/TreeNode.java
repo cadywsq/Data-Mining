@@ -48,10 +48,7 @@ public class TreeNode {
                 System.out.print(attributeName);
                 System.out.print(commonValue);
                 child.print(depth + 1);
-
             }
-
-
         }
     }
 }

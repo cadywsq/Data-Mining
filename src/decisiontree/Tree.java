@@ -22,7 +22,7 @@ public class Tree {
         TreeNode root = new TreeNode(bestAttribute.name, false);
 
         // Partition instances based on best attribute
-        HashMap<String, ArrayList<Instance>> subsets = InfoRatio.getSplitedInstances(instances, bestAttribute.name);
+        HashMap<String, ArrayList<Instance>> subsets = InfoRatio.getSplitedInstances(instances, bestAttribute);
 
         // Iterate through possible values of bestAttribute
         for(String key: subsets.keySet()) {
