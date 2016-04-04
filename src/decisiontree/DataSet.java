@@ -18,7 +18,7 @@ public class DataSet {
 
     // Add attribute to data set
     public void addAttribute(String line) {
-        // Break line into attribute name and attributeValues
+        // Break line into attribute name and attributeMap
         String[] tokens = line.split(" ");
         ArrayList<String> values = new ArrayList<>(Arrays.asList(tokens[2].split("\\W+")));
         attributes.add(new Attribute(values, tokens[1]));
