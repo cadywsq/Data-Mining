@@ -3,7 +3,6 @@ package decisiontree;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Map;
 
 // Stores a set of instances
 public class DataSet {
@@ -28,7 +27,7 @@ public class DataSet {
     // Add instance to data set (add all attributes before doing this)
     public void addInstance(String line) {
         String[] values = line.split(",");
-        Map<String, String> attributeValues = new HashMap<>();
+        HashMap<String, String> attributeValues = new HashMap<>();
         for (int i = 0; i < values.length - 1; i++) {
             attributeValues.put(attributes.get(i).name, values[i]);
         }
