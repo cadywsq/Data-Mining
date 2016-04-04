@@ -15,8 +15,10 @@ public class TreeNode {
 
     ArrayList<TreeNode> children;
 
-    // common attribute value
+    // common attribute value(discrete) or split attribute value(numeric)
     String commonValue;
+    // is less than(numeric)
+    boolean ilt;
 
     ArrayList<Instance> instanceList;
     ArrayList<Attribute> remainingAttribute;

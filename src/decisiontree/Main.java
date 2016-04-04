@@ -42,6 +42,7 @@ public class Main {
             return node.label;
         ArrayList<TreeNode> children = node.children;
         for (TreeNode c : children) {
+
             String value = instance.attributeMap.get(c.attributeName);
             if(value.equals(c.commonValue))
                 return classify(instance, c);
