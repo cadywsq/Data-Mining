@@ -10,16 +10,14 @@ public class TreeNode {
     boolean isLeaf;
     // @attribute: Service_type, Customer, Monthly_fee, Advertisement_budget
     // Size, Promotion, Interest_rate, Period
-    String attributeName;
+    Attribute splitByAttribute;
     // @attribute Label {0,1}
     String label;
 
     List<TreeNode> children;
 
-    // if current node is split by string attribute
-    String splitValue;
-    // if current node is split by numeric attribute
-    double splitNum;
+    // common attribute value
+    String commonValue;
 
     public TreeNode(String attributeOrLabel, boolean isLeaf) {
         this.isLeaf = isLeaf;
