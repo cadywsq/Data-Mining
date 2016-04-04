@@ -118,12 +118,13 @@ public class InfoRatio {
             accumEntropySi += (sLabel0 + sLabel1) / (totalLabel0 + totalLabel1) * getEntropy(sLabel0, sLabel1);
         }
         double entropyS = getEntropy(totalLabel0, totalLabel1);
-        SplitValue splitValue = new SplitValue();
-        return entropyS - accumEntropySi;
+        SplitValue splitValue = new SplitValue(-1, attribute, entropyS - accumEntropySi);
+        return splitValue;
     }
 
     /**
      * Get the information gain for continuous attribute.
+     *
      * @param instances
      * @param attribute
      * @return
@@ -141,7 +142,8 @@ public class InfoRatio {
                 }
             }
             for (int i = 0; i < instances.size(); i++) {
-                SplitValue splitValue = new SplitValue(value, attribute, getDiscreteInfoGain(dataSet, attribute));
+                SplitValue splitValue = getDiscreteInfoGain(instances, attribute);
+                splitValue.setSplitValue(value);
                 splitValueList.add(splitValue);
             }
         }
@@ -150,14 +152,14 @@ public class InfoRatio {
     }
 
 
-    static Attribute getBestAttribute(ArrayList<Instance> instances, ArrayList<Attribute> attributes ) {
-        TreeMap<Double, Attribute> infoGainMap = new TreeMap<>();
+    static Attribute getBestAttribute(ArrayList<Instance> instances, ArrayList<Attribute> attributes) {
+        TreeMap<SplitValue, Attribute> infoGainMap = new TreeMap<>();
 
         for (Attribute theAttribute : attributes) {
             if (!theAttribute.numeric) {
-                infoGainMap.put(getDiscreteInfoGain(dataSet, theAttribute.name), theAttribute);
+                infoGainMap.put(getDiscreteInfoGain(instances, theAttribute.name), theAttribute);
             } else {
-                infoGainMap.put(getContinuousInfoGain(dataSet, theAttribute.name), theAttribute);
+                infoGainMap.put(getContinuousInfoGain(instances, theAttribute.name), theAttribute);
             }
         }
         return infoGainMap.firstEntry().getValue();
@@ -165,11 +167,13 @@ public class InfoRatio {
 
     /**
      * Get hashmap for splited instances lists, attribute value as key, instances of the same kind as value.
+     *
      * @param instances
-     * @param attribute
+     * @param attributeValue
      * @return
      */
-    static HashMap<String, ArrayList<Instance>> getSplitedInstances(ArrayList<Instance> instances, String attribute) {
+    static HashMap<String, ArrayList<Instance>> getSplitedInstances(ArrayList<Instance> instances, String
+            attributeValue) {
 
     }
 
