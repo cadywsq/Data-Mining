@@ -1,10 +1,13 @@
 package decisiontree;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.TreeMap;
 
 /**
@@ -12,7 +15,7 @@ import java.util.TreeMap;
  */
 public class InfoRatio {
     private static final String FILE_PATH = "trainProdIntro.binary.arff";
-    private static DataSet dataSet = Main.readData(FILE_PATH);
+    private static DataSet dataSet = readData(FILE_PATH);
     private static ArrayList<Attribute> attributeList = dataSet.attributes;
 
     // For numeric attribute, use SplitValue to encapsulate and compare.
@@ -190,5 +193,29 @@ public class InfoRatio {
             instanceList.add(instance);
         }
         return splitedInstanceMap;
+    }
+
+    private static DataSet readData(String filename) {
+        DataSet data = new DataSet();
+        Scanner scanner = null;
+        try {
+            scanner = new Scanner(new File(filename));
+        } catch (FileNotFoundException exception) {
+            System.out.println("Error: could not find file");
+            System.exit(1);
+        }
+        String line;
+        scanner.nextLine(); // Skip first line
+        while (scanner.hasNextLine()) {
+            line = scanner.nextLine();
+            if (line.equals("@data")) {
+                break;
+            }
+            data.addAttribute(line);
+        }
+        while (scanner.hasNextLine()) {
+            data.addInstance(scanner.nextLine());
+        }
+        return data;
     }
 }

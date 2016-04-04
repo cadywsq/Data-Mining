@@ -21,8 +21,10 @@ public class DataSet {
         // Break line into attribute name and attributeMap
         String[] tokens = line.split(" ");
         ArrayList<String> values = new ArrayList<>(Arrays.asList(tokens[2].split(",")));
-        values.get(0).replace("{", "");
-        values.get(values.size() - 1).replace("}", "");
+        if (values.size() != 1) {
+            values.get(0).replace("{", "");
+            values.get(values.size() - 1).replace("}", "");
+        }
         attributes.add(new Attribute(values, tokens[1]));
     }
 
