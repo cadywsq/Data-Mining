@@ -172,8 +172,8 @@ public class InfoRatio {
      * @param attributeValue
      * @return
      */
-    static HashMap<String, ArrayList<Instance>> getSplitedInstances(ArrayList<Instance> instances, String
-            attributeValue) {
+    static HashMap<String, ArrayList<Instance>> getSplitedInstances(ArrayList<Instance> instances, Attribute
+            attribute) {
 
     }
 
