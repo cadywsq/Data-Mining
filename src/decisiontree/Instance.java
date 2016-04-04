@@ -6,16 +6,16 @@ import java.util.HashMap;
 public class Instance {
 	
 	public final String label;
-	public final HashMap<String, String> attributeValues;
+	public final HashMap<String, String> attributeMap;
 	
-	public Instance(HashMap<String, String> attributeValues, String label) {
+	public Instance(HashMap<String, String> attributeMap, String label) {
 		this.label = label;
-		this.attributeValues = attributeValues;
+		this.attributeMap = attributeMap;
 	}
 	
 	// Developer tool: print instance
 	public void print() {
-		System.out.println(label + ": " + attributeValues);
+		System.out.println(label + ": " + attributeMap);
 	}
 	
 
