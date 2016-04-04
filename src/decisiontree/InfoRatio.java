@@ -80,7 +80,7 @@ public class InfoRatio {
         return -p0 * Math.log(p0) - p1 * Math.log(p1);
     }
 
-    private static double getDiscreteInfoGain(ArrayList<Instance> instances, String attribute) {
+    private static SplitValue getDiscreteInfoGain(ArrayList<Instance> instances, String attribute) {
         //Count of instance with label 0 for each attribute splitValue.
         Map<String, Integer> label0CountMap = new HashMap<>();
         //Count of instance with label 1 for each attribute splitValue.
@@ -118,6 +118,7 @@ public class InfoRatio {
             accumEntropySi += (sLabel0 + sLabel1) / (totalLabel0 + totalLabel1) * getEntropy(sLabel0, sLabel1);
         }
         double entropyS = getEntropy(totalLabel0, totalLabel1);
+        SplitValue splitValue = new SplitValue();
         return entropyS - accumEntropySi;
     }
 
@@ -149,10 +150,10 @@ public class InfoRatio {
     }
 
 
-    static Attribute getBestAttribute(ArrayList<Instance> instances) {
+    static Attribute getBestAttribute(ArrayList<Instance> instances, ArrayList<Attribute> attributes ) {
         TreeMap<Double, Attribute> infoGainMap = new TreeMap<>();
 
-        for (Attribute theAttribute : attributeList) {
+        for (Attribute theAttribute : attributes) {
             if (!theAttribute.numeric) {
                 infoGainMap.put(getDiscreteInfoGain(dataSet, theAttribute.name), theAttribute);
             } else {
