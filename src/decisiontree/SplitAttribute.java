@@ -189,12 +189,11 @@ public class SplitAttribute {
         if (!splitValue.attribute.numeric) {
             for (String attributeValue : attributeValues) {
                 splitedInstanceMap.put(attributeValue, new ArrayList<Instance>());
-                for (Instance instance : instances) {
-                    String instanceAttributeValue = instance.attributeMap.get(splitValue.getAttribute());
-                    ArrayList<Instance> instanceList = splitedInstanceMap.get(instanceAttributeValue);
-                    instanceList.add(instance);
-                    instances.remove(instance);
-                }
+            }
+            for (Instance instance : instances) {
+                String instanceAttributeValue = instance.attributeMap.get(splitValue.getAttribute());
+                ArrayList<Instance> instanceList = splitedInstanceMap.get(instanceAttributeValue);
+                instanceList.add(instance);
             }
             return splitedInstanceMap;
 
@@ -204,6 +203,7 @@ public class SplitAttribute {
             String splitThreshold = String.valueOf(value);
             splitedInstanceMap.put("<=" + splitThreshold, new ArrayList<Instance>());
             splitedInstanceMap.put(">" + splitThreshold, new ArrayList<Instance>());
+
             for (Instance instance : instances) {
                 double instanceAttributeValue = Double.valueOf(instance.attributeMap.get(splitValue.getAttribute()));
                 if (instanceAttributeValue <= value) {
@@ -213,7 +213,6 @@ public class SplitAttribute {
                     ArrayList<Instance> instanceList = splitedInstanceMap.get(">" + splitThreshold);
                     instanceList.add(instance);
                 }
-                instances.remove(instance);
             }
             return splitedInstanceMap;
         }
