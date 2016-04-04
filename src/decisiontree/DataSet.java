@@ -20,7 +20,9 @@ public class DataSet {
     public void addAttribute(String line) {
         // Break line into attribute name and attributeMap
         String[] tokens = line.split(" ");
-        ArrayList<String> values = new ArrayList<>(Arrays.asList(tokens[2].split("\\W+")));
+        ArrayList<String> values = new ArrayList<>(Arrays.asList(tokens[2].split(",")));
+        values.get(0).replace("{", "");
+        values.get(values.size() - 1).replace("}", "");
         attributes.add(new Attribute(values, tokens[1]));
     }
 

@@ -3,6 +3,7 @@ package decisiontree;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -20,6 +21,7 @@ public class InfoRatio {
         private String attribute;
         private double infoGain;
 
+        // Encapsulated for determining split attribute and split value.
         public SplitValue(double splitValue, String attribute, double infoGain) {
             this.splitValue = splitValue;
             this.setAttribute(attribute);
@@ -61,18 +63,6 @@ public class InfoRatio {
         }
     }
 
-//    private static final ArrayList<String> discreteAttribute = new ArrayList<String>() {{
-//        discreteAttribute.add("Service_type");
-//        discreteAttribute.add("Customer");
-//        discreteAttribute.add("Size");
-//        discreteAttribute.add("Promotion");
-//    }};
-//    private static final ArrayList<String> continuousAttribute = new ArrayList<String>() {{
-//        continuousAttribute.add("Monthly_fee");
-//        continuousAttribute.add("Advertisement_budget");
-//        continuousAttribute.add("Interest_rate");
-//        continuousAttribute.add("Period");
-//    }};
 
     private static double getEntropy(int label0, int label1) {
         double p0 = label0 / (label0 + label1);
@@ -80,10 +70,18 @@ public class InfoRatio {
         return -p0 * Math.log(p0) - p1 * Math.log(p1);
     }
 
+    /**
+     * Get Splitting object with information gain for attribute with discrete values.
+     *
+     * @param instances the list of remaining instances
+     * @param attribute the attribute for calculating information gain
+     * @return SplitValue object with splitting attribute and information gain (split value is -1 for discrete
+     * attributes).
+     */
     private static SplitValue getDiscreteInfoGain(ArrayList<Instance> instances, String attribute) {
-        //Count of instance with label 0 for each attribute splitValue.
+        //Count of instance with label 0 for each attribute value.
         Map<String, Integer> label0CountMap = new HashMap<>();
-        //Count of instance with label 1 for each attribute splitValue.
+        //Count of instance with label 1 for each attribute value.
         Map<String, Integer> label1CountMap = new HashMap<>();
 
         int totalLabel0 = 0;
@@ -123,11 +121,11 @@ public class InfoRatio {
     }
 
     /**
-     * Get the information gain for continuous attribute.
+     * Get the Splitting object with information gain for attribute with continuous values.
      *
      * @param instances
      * @param attribute
-     * @return
+     * @return the SplitValue object with highest information gain.
      */
     private static SplitValue getContinuousInfoGain(ArrayList<Instance> instances, String attribute) {
         ArrayList<SplitValue> splitValueList = new ArrayList<>();
@@ -152,6 +150,13 @@ public class InfoRatio {
     }
 
 
+    /**
+     * Get the current best attribute to split tree.
+     *
+     * @param instances
+     * @param attributes
+     * @return
+     */
     static Attribute getBestAttribute(ArrayList<Instance> instances, ArrayList<Attribute> attributes) {
         TreeMap<SplitValue, Attribute> infoGainMap = new TreeMap<>();
 
@@ -166,30 +171,24 @@ public class InfoRatio {
     }
 
     /**
-     * Get hashmap for splited instances lists, attribute value as key, instances of the same kind as value.
+     * Get hashmap for splitted instances lists, use the attribute value as key, instances of the same kind as value.
      *
      * @param instances
-     * @param attributeValue
+     * @param attribute
      * @return
      */
     static HashMap<String, ArrayList<Instance>> getSplitedInstances(ArrayList<Instance> instances, Attribute
             attribute) {
-
+        List<String> attributeValues = attribute.values;
+        HashMap<String, ArrayList<Instance>> splitedInstanceMap = new HashMap<>();
+        for (String attributeValue : attributeValues) {
+            splitedInstanceMap.put(attributeValue, new ArrayList<Instance>());
+        }
+        for (Instance instance : instances) {
+            String instanceAttributeValue = instance.attributeMap.get(attribute);
+            ArrayList<Instance> instanceList = splitedInstanceMap.get(instanceAttributeValue);
+            instanceList.add(instance);
+        }
+        return splitedInstanceMap;
     }
-
-//    enum ServiceType {
-//        FUND, LOAN, CD, BANK_ACCOUNT, MORTGAGE
-//    }
-//
-//    enum Customer {
-//        STUDENT, BUSINESS, OTHER, DOCTOR, PROFESSIONAL
-//    }
-//
-//    enum Size {
-//        SMALL, LARGE, MEDIUM
-//    }
-//
-//    enum Promotion {
-//        WEB_EMAIL, FULL, WEB, NONE
-//    }
 }
