@@ -14,10 +14,13 @@ public class TreeNode {
     // @attribute Label {0,1}
     String label;
 
-    List<TreeNode> children;
+    ArrayList<TreeNode> children;
 
     // common attribute value
     String commonValue;
+
+    ArrayList<Instance> instanceList;
+    ArrayList<Attribute> remainingAttribute;
 
     public TreeNode(String attributeOrLabel, boolean isLeaf) {
         this.isLeaf = isLeaf;
