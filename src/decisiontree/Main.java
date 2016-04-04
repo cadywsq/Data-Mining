@@ -37,7 +37,7 @@ public class Main {
     }
 
     // Classifies an instance
-    private String classify(Instance instance, TreeNode node) {
+    private static String classify(Instance instance, TreeNode node) {
         if(node.isLeaf)
             return node.label;
         ArrayList<TreeNode> children = node.children;
@@ -46,5 +46,6 @@ public class Main {
             if(value.equals(c.commonValue))
                 return classify(instance, c);
         }
+        return null;
     }
 }
