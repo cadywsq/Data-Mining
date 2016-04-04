@@ -6,9 +6,9 @@ import java.util.HashMap;
 public class Instance {
 	
 	public final String label;
-	public final HashMap<String, String> attributeMap;
+	public final HashMap<Attribute, String> attributeMap;
 	
-	public Instance(HashMap<String, String> attributeMap, String label) {
+	public Instance(HashMap<Attribute, String> attributeMap, String label) {
 		this.label = label;
 		this.attributeMap = attributeMap;
 	}

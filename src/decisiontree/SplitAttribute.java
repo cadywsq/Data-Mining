@@ -20,11 +20,11 @@ public class SplitAttribute {
     // For numeric attribute, use SplitValue to encapsulate and compare.
     static class SplitValue implements Comparable<SplitValue> {
         private double splitValue;
-        private String attribute;
+        private Attribute attribute;
         private double infoGain;
 
         // Encapsulated for determining split attribute and split value.
-        public SplitValue(double splitValue, String attribute, double infoGain) {
+        public SplitValue(double splitValue, Attribute attribute, double infoGain) {
             this.splitValue = splitValue;
             this.setAttribute(attribute);
             this.infoGain = infoGain;
@@ -56,11 +56,11 @@ public class SplitAttribute {
             return 0;
         }
 
-        public String getAttribute() {
+        public Attribute getAttribute() {
             return attribute;
         }
 
-        public void setAttribute(String attribute) {
+        public void setAttribute(Attribute attribute) {
             this.attribute = attribute;
         }
     }
@@ -80,7 +80,7 @@ public class SplitAttribute {
      * @return SplitValue object with splitting attribute and information gain (split value is -1 for discrete
      * attributes).
      */
-    private static SplitValue getDiscreteInfoGain(ArrayList<Instance> instances, String attribute) {
+    private static SplitValue getDiscreteInfoGain(ArrayList<Instance> instances, Attribute attribute) {
         //Count of instance with label 0 for each attribute value.
         Map<String, Integer> label0CountMap = new HashMap<>();
         //Count of instance with label 1 for each attribute value.
@@ -129,9 +129,10 @@ public class SplitAttribute {
      * @param attribute
      * @return the SplitValue object with highest information gain.
      */
-    private static SplitValue getContinuousInfoGain(ArrayList<Instance> instances, String attribute) {
+    private static SplitValue getContinuousInfoGain(ArrayList<Instance> instances, Attribute attribute) {
         ArrayList<SplitValue> splitValueList = new ArrayList<>();
         for (Instance instance : instances) {
+            // Use below value as split value.
             double value = Double.valueOf(instance.attributeMap.get(attribute));
             for (Instance theInstance : instances) {
                 double theValue = Double.valueOf(theInstance.attributeMap.get(attribute));
@@ -164,9 +165,9 @@ public class SplitAttribute {
 
         for (Attribute theAttribute : attributes) {
             if (!theAttribute.numeric) {
-                infoGainMap.put(getDiscreteInfoGain(instances, theAttribute.name), theAttribute);
+                infoGainMap.put(getDiscreteInfoGain(instances, theAttribute), theAttribute);
             } else {
-                infoGainMap.put(getContinuousInfoGain(instances, theAttribute.name), theAttribute);
+                infoGainMap.put(getContinuousInfoGain(instances, theAttribute), theAttribute);
             }
         }
         return infoGainMap.firstEntry().getValue();
