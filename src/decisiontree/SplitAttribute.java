@@ -160,7 +160,7 @@ public class SplitAttribute {
      * @param attributes
      * @return
      */
-    static Attribute getBestAttribute(ArrayList<Instance> instances, ArrayList<Attribute> attributes) {
+    static SplitValue getBestAttribute(ArrayList<Instance> instances, ArrayList<Attribute> attributes) {
         TreeMap<SplitValue, Attribute> infoGainMap = new TreeMap<>();
 
         for (Attribute theAttribute : attributes) {
@@ -170,29 +170,52 @@ public class SplitAttribute {
                 infoGainMap.put(getContinuousInfoGain(instances, theAttribute), theAttribute);
             }
         }
-        return infoGainMap.firstEntry().getValue();
+        return infoGainMap.firstEntry().getKey();
     }
 
     /**
      * Get hashmap for splitted instances lists, use the attribute value as key, instances of the same kind as value.
      *
      * @param instances
-     * @param attribute
+     * @param splitValue
      * @return
      */
-    static HashMap<String, ArrayList<Instance>> getSplitedInstances(ArrayList<Instance> instances, Attribute
-            attribute) {
-        List<String> attributeValues = attribute.values;
+    static HashMap<String, ArrayList<Instance>> getSplitedInstances(ArrayList<Instance> instances, SplitValue
+            splitValue) {
+        List<String> attributeValues = splitValue.attribute.values;
         HashMap<String, ArrayList<Instance>> splitedInstanceMap = new HashMap<>();
-        for (String attributeValue : attributeValues) {
-            splitedInstanceMap.put(attributeValue, new ArrayList<Instance>());
-        }
-        for (Instance instance : instances) {
-            String instanceAttributeValue = instance.attributeMap.get(attribute);
-            ArrayList<Instance> instanceList = splitedInstanceMap.get(instanceAttributeValue);
-            instanceList.add(instance);
-        }
-        return splitedInstanceMap;
-    }
 
+        // For discrete attribute, split instances to groups based on number of attribute values.
+        if (!splitValue.attribute.numeric) {
+            for (String attributeValue : attributeValues) {
+                splitedInstanceMap.put(attributeValue, new ArrayList<Instance>());
+                for (Instance instance : instances) {
+                    String instanceAttributeValue = instance.attributeMap.get(splitValue.getAttribute());
+                    ArrayList<Instance> instanceList = splitedInstanceMap.get(instanceAttributeValue);
+                    instanceList.add(instance);
+                    instances.remove(instance);
+                }
+            }
+            return splitedInstanceMap;
+
+            // For continuous attribute, split instances to two groups based on split threshold.
+        } else {
+            double value = splitValue.getSplitValue();
+            String splitThreshold = String.valueOf(value);
+            splitedInstanceMap.put("<=" + splitThreshold, new ArrayList<Instance>());
+            splitedInstanceMap.put(">" + splitThreshold, new ArrayList<Instance>());
+            for (Instance instance : instances) {
+                double instanceAttributeValue = Double.valueOf(instance.attributeMap.get(splitValue.getAttribute()));
+                if (instanceAttributeValue <= value) {
+                    ArrayList<Instance> instanceList = splitedInstanceMap.get("<=" + splitThreshold);
+                    instanceList.add(instance);
+                } else {
+                    ArrayList<Instance> instanceList = splitedInstanceMap.get(">" + splitThreshold);
+                    instanceList.add(instance);
+                }
+                instances.remove(instance);
+            }
+            return splitedInstanceMap;
+        }
+    }
 }
