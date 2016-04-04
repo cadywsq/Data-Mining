@@ -14,7 +14,7 @@ public class Tree {
         if (instances.isEmpty())
             return new TreeNode(getLabel(parentInstances), true);
 
-        // Returns null if no more features / positive gain features
+        // Returns null if no more attributes can be used
         Attribute bestAttribute = SplitAttribute.getBestAttribute(instances, attributes);
         if (bestAttribute == null)
             return new TreeNode(getLabel(instances), true);
