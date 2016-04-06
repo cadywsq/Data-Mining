@@ -6,20 +6,17 @@ import java.util.ArrayList;
  * Created by wangxinlei on 4/3/16.
  */
 public class TreeNode {
-    boolean isLeaf;
+    private boolean isLeaf;
     // @attribute: Service_type, Customer, Monthly_fee, Advertisement_budget
     // Size, Promotion, Interest_rate, Period
-    private SplitAttribute.SplitValue splitValue;
-    String attributeName;
+    private Attribute splitAttribute;
+    private String attributeName;
     // @attribute Label {0,1}
-    String label;
+    private String label;
+    private ArrayList<TreeNode> children;
 
-    ArrayList<TreeNode> children;
-
-    // common attribute value(discrete) or split attribute value(numeric)
-    String commonValue;
     // is less than(numeric)
-    boolean ilt;
+    private boolean ilt;
 
     ArrayList<Instance> instanceList;
     ArrayList<Attribute> remainingAttribute;

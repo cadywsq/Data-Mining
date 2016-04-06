@@ -15,15 +15,27 @@ public class SplitAttribute {
     static final String FILE_PATH = "trainProdIntro.binary.arff";
     private static DataSet dataSet = readData(FILE_PATH);
     private static ArrayList<Attribute> attributeList = dataSet.attributes;
+    private static ArrayList<String> labelList = dataSet.labels;
 
 
-    private static double getEntropy(int label0, int label1) {
-        double p0 = label0 / (label0 + label1);
-        double p1 = label1 / (label0 + label1);
-        if (p0 == 0 || p1 == 0) {
-            return 0;
+    /**
+     * Get the entropy of one attribute value.
+     *
+     * @param labelCounts Hashmap of label as key, count of data with the label as value
+     * @return
+     */
+    private static double calculateE(HashMap<String, Integer> labelCounts) {
+        int total = 0;
+        for (Integer integer : labelCounts.values()) {
+            total += integer;
         }
-        return -p0 * (Math.log(p0) / Math.log(2)) - p1 * (Math.log(p1) / Math.log(2));
+        double entropy = Integer.MAX_VALUE;
+        for (Integer labelCount : labelCounts.values()) {
+            double p = labelCount / total;
+            double entropySv = -p * (Math.log(p) / Math.log(2));
+            entropy += entropySv;
+        }
+        return entropy;
     }
 
     /**
@@ -34,11 +46,29 @@ public class SplitAttribute {
      * @return SplitValue object with splitting attribute and information gain (split value is -1 for discrete
      * attributes).
      */
-    private static DiscreteAttribute getDiscreteInfoGain(ArrayList<Instance> instances, Attribute attribute) {
+    private static DiscreteAttribute getDiscreteInfoGain(ArrayList<Instance> instances, DiscreteAttribute attribute) {
         //Count of instance with label 0 for each attribute value.
         Map<String, Integer> label0CountMap = new HashMap<>();
         //Count of instance with label 1 for each attribute value.
         Map<String, Integer> label1CountMap = new HashMap<>();
+
+        Map<String, HashMap<String, Integer>> attributeLabelCount = new HashMap<>();
+        // Initialize label count hashmaps
+        for (int i = 0; i < labelList.size(); i++) {
+            // Key: label value; Value: count of data with this label
+            HashMap<String, Integer> labelCountMap = new HashMap<>();
+            for (String label : labelList) {
+                labelCountMap.put(label,0);
+            }
+        }
+
+        for (String attriValue : attribute.getValues()) {
+            for (Instance instance : instances) {
+                String label = instance.getLabel();
+
+            }
+        }
+
 
         int totalLabel0 = 0;
         int totalLabel1 = 0;
@@ -69,13 +99,13 @@ public class SplitAttribute {
         for (Attribute theAttribute : attributeList) {
             int sLabel0 = label0CountMap.get(theAttribute);
             int sLabel1 = label1CountMap.get(theAttribute);
-            accumEntropySi += (sLabel0 + sLabel1) / (totalLabel0 + totalLabel1) * getEntropy(sLabel0, sLabel1);
+            accumEntropySi += (sLabel0 + sLabel1) / (totalLabel0 + totalLabel1) * calculateE(sLabel0, sLabel1);
 
         }
         if (accumEntropySi == 0) {
             return null;
         }
-        double entropyS = getEntropy(totalLabel0, totalLabel1);
+        double entropyS = calculateE(totalLabel0, totalLabel1);
         DiscreteAttribute newAttribute = new DiscreteAttribute(attribute.getName());
         newAttribute.setInfoGain(entropyS - accumEntropySi);
         return newAttribute;

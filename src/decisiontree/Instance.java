@@ -5,8 +5,8 @@ import java.util.HashMap;
 // Holds data for a training instance
 public class Instance {
 	
-	public final String label;
-	public final HashMap<Attribute, String> attributeMap;
+	private final String label;
+	private final HashMap<Attribute, String> attributeMap;
 	
 	public Instance(HashMap<Attribute, String> attributeMap, String label) {
 		this.label = label;
@@ -15,8 +15,15 @@ public class Instance {
 	
 	// Developer tool: print instance
 	public void print() {
-		System.out.println(label + ": " + attributeMap);
+		System.out.println(getLabel() + ": " + getAttributeMap());
 	}
-	
 
+
+	public String getLabel() {
+		return label;
+	}
+
+	public HashMap<Attribute, String> getAttributeMap() {
+		return attributeMap;
+	}
 }

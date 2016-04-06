@@ -12,13 +12,14 @@ public class DataSet {
 
     public ArrayList<Attribute> attributes;
     public ArrayList<Instance> instances;
+    public ArrayList<String> labels;
 
     // Add attribute to data set
     public void addAttribute(String line) {
         // Break line into attribute name and attributeMap
         String[] tokens = line.split(" ");
 
-        if (!tokens[1].equals("Label")) {
+        if (!tokens[1].toLowerCase().equals("label")) {
             ArrayList<String> values = new ArrayList<>(Arrays.asList(tokens[2].split(",")));
             if (values.size() != 1) {
                 values.set(0, values.get(0).replace("{", ""));
@@ -31,6 +32,8 @@ public class DataSet {
             } else {
                 attributes.add(new ContinuousAttribute(tokens[1]));
             }
+        } else {
+            addLabels(line);
         }
     }
 
@@ -42,6 +45,16 @@ public class DataSet {
             attributes.put(this.attributes.get(i), values[i]);
         }
         instances.add(new Instance(attributes, values[values.length - 1]));
+    }
+
+    private void addLabels(String line) {
+        String[] tokens = line.split(" ");
+        if (tokens[1].toLowerCase().equals("labels")) {
+            String[] labelList = tokens[2].split("\\W+");
+            for (String label : labelList) {
+                labels.add(label);
+            }
+        }
     }
 
     // Initially read in file.
