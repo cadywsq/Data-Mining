@@ -48,11 +48,11 @@ public class DecisionTree {
         class1 = "0";
         class2 = "1";
         treeRoot = decisionTreeLearning(dataSet.instances, dataSet.attributes, dataSet.instances);
-        printTree();
+//        printTree();
     }
 
     // Tests a set of instances, prints results
-    public void test(List<Instance> instances) {
+    public double test(List<Instance> instances) {
         System.out.println("\n\nListed as: <predicted class> <actual class>");
         int correct = 0;
         for (Instance instance : instances) {
@@ -65,6 +65,7 @@ public class DecisionTree {
         System.out.println("Total: " + instances.size());
         double hitRate = (correct * 1.0) / (instances.size() * 1.0);
         System.out.println("Hit Rate: " + (hitRate * 100) + "%");
+        return hitRate;
     }
 
     // Classifies an instance (requires that a tree is already built)
@@ -95,7 +96,6 @@ public class DecisionTree {
         if (unanimousLabel(instances))
             return new Node(instances.get(0).label, true);
 
-        System.out.println(attributes.size());
         // Returns null if no more features / positive gain features
         Attribute bestAttribute = bestAttribute(instances, attributes);
         if (bestAttribute == null)
@@ -180,7 +180,6 @@ public class DecisionTree {
             } else {
                 curEntropy = numericConditionalEntropy(instances, attribute);
             }
-            System.out.println(curEntropy);
             if (curEntropy < minEntropy) {
                 minEntropy = curEntropy;
                 best = attribute;
@@ -248,8 +247,6 @@ public class DecisionTree {
             splitValue = Double.MIN_VALUE;
             for (Double split : candidateSplits) {
                 double gain = entropy(instances) - conditionalEntropy(instances, attribute, split);
-                if (attribute.name.equals("Period") && (split == 50 || split == 56))
-                    System.out.println("period\t" + split + "\t" + (entropy(instances) - conditionalEntropy(instances, attribute, split)));
 
                 if (gain >= maxGain) {
                     maxGain = gain;
