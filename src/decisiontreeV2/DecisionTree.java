@@ -58,8 +58,9 @@ public class DecisionTree {
         for (Instance instance : instances) {
             String predicted = classify(instance, treeRoot);
             System.out.println(predicted + " " + instance.label);
-            if (predicted.equals(instance.label))
+            if (predicted.equals(instance.label)) {
                 correct++;
+            }
         }
         System.out.println("\nCorrect: " + correct);
         System.out.println("Total: " + instances.size());
@@ -70,36 +71,44 @@ public class DecisionTree {
 
     // Classifies an instance (requires that a tree is already built)
     private String classify(Instance instance, Node node) {
-        if (node.terminal)
+        if (node.terminal) {
             return node.label;
+        }
         if (node.numeric) {
             double instanceValue = Double.parseDouble(instance.values.get(node.attribute));
-            if (instanceValue <= node.splitValue)
+            if (instanceValue <= node.splitValue) {
                 return classify(instance, node.children.get(0));
-            else
+            } else {
                 return classify(instance, node.children.get(1));
+            }
         } else {
             String value = instance.values.get(node.attribute);
-            for (Node child : node.children)
-                if (value.equals(child.value))
+            for (Node child : node.children) {
+                if (value.equals(child.value)) {
                     return classify(instance, child);
+                }
+            }
         }
         return null;
     }
 
     // Primary learning function
     private Node decisionTreeLearning(List<Instance> instances, List<Attribute> attributes, List<Instance> parentInstances) {
-        if (instances.isEmpty())
+        if (instances.isEmpty()) {
             return new Node(pluralityValue(parentInstances), true);
-        if (instances.size() < minInstances)
+        }
+        if (instances.size() < minInstances) {
             return new Node(pluralityValue(instances), true);
-        if (unanimousLabel(instances))
+        }
+        if (unanimousLabel(instances)) {
             return new Node(instances.get(0).label, true);
+        }
 
         // Returns null if no more features / positive gain features
         Attribute bestAttribute = bestAttribute(instances, attributes);
-        if (bestAttribute == null)
+        if (bestAttribute == null) {
             return new Node(pluralityValue(instances), true);
+        }
         Node root = new Node(bestAttribute.name, false);
         root.countInstances(instances);
 
@@ -113,16 +122,18 @@ public class DecisionTree {
             List<Instance> gtr = new ArrayList<Instance>();
             for (Instance instance : instances) {
                 double value = Double.parseDouble(instance.values.get(bestAttribute.name));
-                if (value <= currentSplitValue)
+                if (value <= currentSplitValue) {
                     leq.add(instance);
-                else
+                } else {
                     gtr.add(instance);
+                }
             }
             subsets.put("leq", leq);
             subsets.put("gtr", gtr);
         } else {
-            for (String value : bestAttribute.values)
+            for (String value : bestAttribute.values) {
                 subsets.put(value, new ArrayList<Instance>());
+            }
             for (Instance instance : instances) {
                 List<Instance> subset = subsets.get(instance.values.get(bestAttribute.name));
                 subset.add(instance);
@@ -134,19 +145,22 @@ public class DecisionTree {
             // Copy attributes list and remove bestAttribute from copy
             List<Attribute> remainingAttributes = new ArrayList<Attribute>();
             remainingAttributes.addAll(attributes);
-            if (!bestAttribute.numeric)
+            if (!bestAttribute.numeric) {
                 remainingAttributes.remove(bestAttribute);
+            }
             // Add child to subtree of root
             Node child = decisionTreeLearning(subsets.get(key), remainingAttributes, instances);
             if (bestAttribute.numeric) {
                 // child.numeric = true;
                 // child.splitValue = currentSplitValue;
-                if (key.equals("leq"))
+                if (key.equals("leq")) {
                     child.leq = true;
-                else
+                } else {
                     child.leq = false;
-            } else
+                }
+            } else {
                 child.value = key;
+            }
             root.addChild(child);
         }
         return root;
@@ -159,13 +173,14 @@ public class DecisionTree {
      */
     private Attribute bestAttribute(List<Instance> instances, List<Attribute> attributes) {
         Attribute best = null;
-        if(entropy(instances) == 0)
+        if (entropy(instances) == 0) {
             return null;
+        }
 
         double minEntropy = Double.MAX_VALUE;
         double maxGain = Double.MIN_VALUE;
         for (Attribute attribute : attributes) {
-             double gain = gain(instances, attribute);
+            double gain = gain(instances, attribute);
 
 //             if (gain > maxGain) {
 //             maxGain = gain;
@@ -193,8 +208,9 @@ public class DecisionTree {
         // Get list of possible split points
         TreeSet<Double> values = new TreeSet<Double>();
         for (Instance instance : instances) {
-            if (instance.values.containsKey(attribute.name))
+            if (instance.values.containsKey(attribute.name)) {
                 values.add(Double.parseDouble(instance.values.get(attribute.name)));
+            }
         }
 
 //        if (attribute.name.equals("Period"))
@@ -223,16 +239,18 @@ public class DecisionTree {
 
     // Calculates (maximum) information gain over instance for the attribute
     private double gain(List<Instance> instances, Attribute attribute) {
-        if (instances.isEmpty())
+        if (instances.isEmpty()) {
             return 0.0;
+        }
         if (!attribute.numeric) {
             return entropy(instances) - conditionalEntropy(instances, attribute);
         } else {
             // Get list of possible split points
             TreeSet<Double> values = new TreeSet<Double>();
             for (Instance instance : instances) {
-                if (instance.values.containsKey(attribute.name))
+                if (instance.values.containsKey(attribute.name)) {
                     values.add(Double.parseDouble(instance.values.get(attribute.name)));
+                }
             }
             List<Double> candidateSplits = new ArrayList<Double>();
             // Iterator<Double> num1 = values.iterator();
@@ -240,8 +258,10 @@ public class DecisionTree {
             // if (num2.hasNext())
             // num2.next();
             while (num2.hasNext())
-                // candidateSplits.add((num1.next() + num2.next()) / 2);
+            // candidateSplits.add((num1.next() + num2.next()) / 2);
+            {
                 candidateSplits.add(num2.next());
+            }
             // Find maximum gain from among possible split points
             double maxGain = Double.MIN_VALUE;
             splitValue = Double.MIN_VALUE;
@@ -260,14 +280,17 @@ public class DecisionTree {
 
     // Returns non-conditional entropy of set of instances
     private double entropy(List<Instance> instances) {
-        if (instances.isEmpty())
+        if (instances.isEmpty()) {
             return 0.0;
+        }
         // Obtain number of instances in each class
         int total = instances.size();
         int label1count = 0;
-        for (Instance instance : instances)
-            if (instance.label.equals(class1))
+        for (Instance instance : instances) {
+            if (instance.label.equals(class1)) {
                 label1count++;
+            }
+        }
         int label2count = total - label1count;
 //         Calculate entropy
         double prLabel1 = (label1count * 1.0) / (total * 1.0);
@@ -277,16 +300,19 @@ public class DecisionTree {
 
     // Conditional entropy of instances given nominal attribute
     private double conditionalEntropy(List<Instance> instances, Attribute attribute) {
-        if (instances.isEmpty())
+        if (instances.isEmpty()) {
             return 0.0;
+        }
         // Create list of instances for each possible value of attribute
         HashMap<String, List<Instance>> subsets = new HashMap<String, List<Instance>>();
-        for (String value : attribute.values)
+        for (String value : attribute.values) {
             subsets.put(value, new ArrayList<Instance>());
+        }
         for (Instance instance : instances) {
             List<Instance> subset = subsets.get(instance.values.get(attribute.name));
-            if (subset != null)
+            if (subset != null) {
                 subset.add(instance);
+            }
         }
         // Compute entropy
         double entropy = 0.0;
@@ -299,17 +325,19 @@ public class DecisionTree {
 
     // Conditional entropy of instances given nominal attribute, split value
     private double conditionalEntropy(List<Instance> instances, Attribute attribute, double split) {
-        if (instances.isEmpty())
+        if (instances.isEmpty()) {
             return 0.0;
+        }
         // Divide the list based on the split point
         List<Instance> leq = new ArrayList<Instance>();
         List<Instance> gtr = new ArrayList<Instance>();
         for (Instance instance : instances) {
             double value = Double.parseDouble(instance.values.get(attribute.name));
-            if (value <= split)
+            if (value <= split) {
                 leq.add(instance);
-            else
+            } else {
                 gtr.add(instance);
+            }
         }
         double prLeq = (leq.size() * 1.0) / (instances.size() * 1.0);
         double prGtr = (gtr.size() * 1.0) / (instances.size() * 1.0);
@@ -317,8 +345,9 @@ public class DecisionTree {
     }
 
     private double logBase2(double x) {
-        if (x == 0.0)
+        if (x == 0.0) {
             return 0.0;
+        }
         return (Math.log(x) / Math.log(2.0));
     }
 
@@ -326,21 +355,26 @@ public class DecisionTree {
     // first instance
     private String pluralityValue(List<Instance> instances) {
         int firstCount = 0;
-        for (Instance instance : instances)
-            if (instance.label.equals(class1))
+        for (Instance instance : instances) {
+            if (instance.label.equals(class1)) {
                 firstCount++;
-        if (firstCount >= instances.size() - firstCount)
+            }
+        }
+        if (firstCount >= instances.size() - firstCount) {
             return class1;
-        else
+        } else {
             return class2;
+        }
     }
 
     // Returns true if all instances have the same class label
     private boolean unanimousLabel(List<Instance> instances) {
         String label = instances.get(0).label;
-        for (Instance instance : instances)
-            if (!instance.label.equals(label))
+        for (Instance instance : instances) {
+            if (!instance.label.equals(label)) {
                 return false;
+            }
+        }
         return true;
     }
 

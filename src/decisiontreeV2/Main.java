@@ -25,14 +25,17 @@ public class Main {
         scanner.nextLine(); // Skip first line
         while (scanner.hasNextLine()) {
             line = scanner.nextLine();
-            if (line.equals("@data"))
+            if (line.equals("@data")) {
                 break;
-            if (line != null && !line.equals(""))
+            }
+            if (line != null && !line.equals("")) {
                 data.addAttribute(line);
+            }
         }
         data.attributes.remove(data.attributes.size() - 1);
-        while (scanner.hasNextLine())
+        while (scanner.hasNextLine()) {
             data.addInstance(scanner.nextLine());
+        }
         return data;
     }
 
@@ -51,10 +54,11 @@ public class Main {
     }
 
     private static void crossValidate(DataSet dataSet) {
-	  //Cut samples to k sets
+        //Cut samples to k sets
         List<List<Instance>> kSets = new ArrayList<>();
-        for (int j = 0; j < 10; j++)
+        for (int j = 0; j < 10; j++) {
             kSets.add(new ArrayList<Instance>());
+        }
 
         Iterator<Instance> iterator = dataSet.instances.iterator();
         while (iterator.hasNext()) {
@@ -64,7 +68,7 @@ public class Main {
         }
 
         double average = 0;
-	    for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 10; i++) {
             //k-1 sets as training, ith set as testing
             ArrayList<Instance> training = new ArrayList<>();
             ArrayList<Instance> testing = new ArrayList<>();
@@ -83,8 +87,8 @@ public class Main {
             root.train(train);
             average += root.test(testing);
         }
-	    average /= 10;
-        System.out.println("average accuracy:" + average * 100 +"%");
+        average /= 10;
+        System.out.println("average accuracy:" + average * 100 + "%");
 
-	}
+    }
 }
