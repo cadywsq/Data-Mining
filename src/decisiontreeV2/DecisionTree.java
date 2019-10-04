@@ -43,12 +43,9 @@ public class DecisionTree {
                 break;
             }
         }
-        // class1 = classAttribute.values.get(0);
-        // class2 = classAttribute.values.get(1);
         class1 = "0";
         class2 = "1";
         treeRoot = decisionTreeLearning(dataSet.instances, dataSet.attributes, dataSet.instances);
-//        printTree();
     }
 
     // Tests a set of instances, prints results
@@ -151,8 +148,6 @@ public class DecisionTree {
             // Add child to subtree of root
             Node child = decisionTreeLearning(subsets.get(key), remainingAttributes, instances);
             if (bestAttribute.numeric) {
-                // child.numeric = true;
-                // child.splitValue = currentSplitValue;
                 if (key.equals("leq")) {
                     child.leq = true;
                 } else {
@@ -181,14 +176,6 @@ public class DecisionTree {
         double maxGain = Double.MIN_VALUE;
         for (Attribute attribute : attributes) {
             double gain = gain(instances, attribute);
-
-//             if (gain > maxGain) {
-//             maxGain = gain;
-//             best = attribute;
-//             // bestSplitValue gets split value of numeric attribute with
-////             highest gain
-//             bestSplitValue = splitValue;
-//             }
             double curEntropy;
             if (!attribute.numeric) {
                 curEntropy = conditionalEntropy(instances, attribute);
@@ -212,12 +199,6 @@ public class DecisionTree {
                 values.add(Double.parseDouble(instance.values.get(attribute.name)));
             }
         }
-
-//        if (attribute.name.equals("Period"))
-//            for (double element : values) {
-//                System.out.print(element + "\t");
-//            }
-//        System.out.println();
         Iterator<Double> num = values.iterator();
 
         // Find maximum gain from among possible split points
@@ -226,8 +207,6 @@ public class DecisionTree {
         while (num.hasNext()) {
             double split = num.next();
             double entropy = conditionalEntropy(instances, attribute, split);
-//            if (attribute.name.equals("Period") && (split == 50 || split == 56))
-//                System.out.println("period\t" + split + "\t" + (entropy(instances) - conditionalEntropy(instances, attribute, split)));
 
             if (entropy < minEntropy) {
                 minEntropy = entropy;
@@ -255,11 +234,8 @@ public class DecisionTree {
             List<Double> candidateSplits = new ArrayList<Double>();
             // Iterator<Double> num1 = values.iterator();
             Iterator<Double> num2 = values.iterator();
-            // if (num2.hasNext())
-            // num2.next();
-            while (num2.hasNext())
-            // candidateSplits.add((num1.next() + num2.next()) / 2);
-            {
+
+            while (num2.hasNext()) {
                 candidateSplits.add(num2.next());
             }
             // Find maximum gain from among possible split points
