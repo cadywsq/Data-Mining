@@ -70,17 +70,12 @@ public class Node {
                         System.out.print(" > ");
                     }
                     System.out.print(splitValue);
-                    // System.out.print(" [" + child.negativeInstances + " " + child.positiveInstances + "]");
                     child.print(depth + 1);
                 } else {
                     System.out.print(" = " + child.value);
-                    // System.out.print(" [" + child.negativeInstances + " " + child.positiveInstances + "]");
                     child.print(depth + 1);
                 }
-
             }
-
-
         }
     }
 
