@@ -45,12 +45,6 @@ public class Main {
         DataSet trainingSet = read(train);
 
         crossValidate(trainingSet);
-//        DataSet testingSet = read(test);
-//        int stopValue = Integer.parseInt("1");
-
-//        DecisionTree ID3 = new DecisionTree(stopValue);
-//        ID3.train(trainingSet);
-//        ID3.test(trainingSet.instances);
     }
 
     private static void crossValidate(DataSet dataSet) {
